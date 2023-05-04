@@ -1,0 +1,110 @@
+function validarDescricao(descricao) {
+  // Remover espaços em branco no início e no final da string
+  descricao = descricao.trim();
+  
+  // Converter para letras maiúsculas
+  descricao = descricao.toUpperCase();
+  
+  // Verificar se a descrição tem entre 5 e 35 caracteres
+  if (descricao.length < 5 || descricao.length > 35) {
+    return "O campo DESCRIÇÃO deve ter no mínimo 5 e no máximo 35 caracteres.";
+  }
+  
+  // Caso contrário, retorna true indicando que a validação passou
+  return true;
+}
+
+==================================================================================
+// obtém o valor informado no campo de valor
+const valor = document.getElementById("valor").value;
+
+// verifica se o valor é um número positivo e menor ou igual a 1.000.000,00
+if (isNaN(valor) || valor <= 0 || valor > 1000000) {
+  // exibe mensagem de erro e interrompe o processamento
+  alert("O campo VALOR deve ser positivo e menor ou igual a R$ 1.000.000,00.");
+  return false;
+}
+
+// continua o cadastramento
+return true;
+====================================================================================
+// obtém o estado atual da despesa do banco de dados
+const situacaoDespesa = consultarBancoDeDados(idDespesa);
+
+if (acao == "alterar" || acao == "pagar") {
+  if (situacaoDespesa == "paga") {
+    // retorna mensagem de erro caso a despesa já tenha sido paga
+    alert(`Não é possível ${acao} despesa já paga.`);
+    return false;
+  }
+} else if (acao == "excluir") {
+  if (situacaoDespesa != "paga") {
+    // retorna mensagem de erro caso a despesa ainda não tenha sido paga
+    alert("Não é possível excluir despesa não paga.");
+    return false;
+  }
+}
+
+// continua o processamento caso as validações tenham sido bem-sucedidas
+return true;
+=================================================================================
+// Suponha que esteja sendo feita uma requisição para alterar uma despesa com ID = 123
+
+// Consulta o banco de dados para verificar a situação da despesa
+let despesa = consultarDespesa(123);
+
+if (despesa.situacao === 'Paga') {
+  // Despesa já paga, não é possível alterar ou pagar novamente
+  alert('Não é possível alterar/pagar despesa já paga.');
+} else {
+  // Despesa ainda não paga, é possível alterar ou pagar
+  // Fazer a alteração/pagamento da despesa
+}
+
+// Suponha agora que esteja sendo feita uma requisição para excluir uma despesa com ID = 123
+
+// Consulta o banco de dados para verificar a situação da despesa
+let despesa = consultarDespesa(123);
+
+if (despesa.situacao === 'Paga') {
+  // Despesa já paga, é possível excluir
+  // Fazer a exclusão da despesa
+} else {
+  // Despesa ainda não paga, não é possível excluir
+  alert('Não é possível excluir despesa não paga.');
+}
+===================================================================================
+// Função que valida os campos de sistema na inclusão/alteração de despesa
+function validarCamposSistema(inclusao, alteracao) {
+  // Verifica se é uma inclusão e se o campo IND_PAGO foi preenchido corretamente
+  if (inclusao && document.getElementById("ind_pago").value !== "NÃO") {
+    alert("O campo IND_PAGO deve receber o valor 'NÃO' na inclusão.");
+    return false;
+  }
+
+  // Verifica se é uma alteração e se os campos COD_CLIENTE, TIPO_PESSOA, IND_PAGO e DATA foram dessetados
+  if (alteracao) {
+    if (document.getElementById("cod_cliente").value !== "") {
+      alert("O campo COD_CLIENTE deve ser dessetado na alteração.");
+      return false;
+    }
+
+    if (document.getElementById("tipo_pessoa").value !== "") {
+      alert("O campo TIPO_PESSOA deve ser dessetado na alteração.");
+      return false;
+    }
+
+    if (document.getElementById("ind_pago").value !== "") {
+      alert("O campo IND_PAGO deve ser dessetado na alteração.");
+      return false;
+    }
+
+    if (document.getElementById("data").value !== "") {
+      alert("O campo DATA deve ser dessetado na alteração.");
+      return false;
+    }
+  }
+
+  // Retorna true se todas as validações passaram
+  return true;
+}

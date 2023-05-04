@@ -1,0 +1,45 @@
+function validarDataDespesa(data) {
+  // Obtemos a data atual
+  const dataAtual = new Date();
+  // Verificamos se a data da despesa é menor ou igual à data atual
+  if (data > dataAtual) {
+    throw new Error('Não é possível incluir despesas com data futura.');
+  }
+  // Verificamos se a data da despesa é do mês atual
+  const mesAtual = dataAtual.getMonth() + 1;
+  const anoAtual = dataAtual.getFullYear();
+  const mesDespesa = data.getMonth() + 1;
+  const anoDespesa = data.getFullYear();
+  if (mesDespesa !== mesAtual || anoDespesa !== anoAtual) {
+    throw new Error('Só é possível incluir despesas para o mês atual.');
+  }
+}
+
+// Obtém a data atual
+const dataAtual = new Date();
+
+// Obtém a data selecionada pelo usuário (supondo que a data esteja em um campo de formulário chamado "dataDespesa")
+const dataDespesa = new Date(document.getElementById("dataDespesa").value);
+
+// Verifica se a data selecionada pelo usuário é maior que a data atual
+if (dataDespesa > dataAtual) {
+  // Exibe mensagem de erro
+  alert("Não é possível incluir despesas com data futura.");
+  // Interrompe o processamento
+  return false;
+}
+
+// Obtém o mês atual e o mês da despesa selecionada
+const mesAtual = dataAtual.getMonth();
+const mesDespesa = dataDespesa.getMonth();
+
+// Verifica se a despesa é do mês atual
+if (mesDespesa !== mesAtual) {
+  // Exibe mensagem de erro
+  alert("Só é possível incluir despesas para o mês atual.");
+  // Interrompe o processamento
+  return false;
+}
+
+// Se chegou até aqui, as validações foram bem-sucedidas
+// Continua o cadastramento
